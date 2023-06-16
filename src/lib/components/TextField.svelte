@@ -104,7 +104,7 @@
 
 <style lang="postcss">
 	.text-field-container {
-		@apply relative h-14 w-full min-w-[15rem] text-on-surface-variant;
+		@apply relative h-14 w-full text-on-surface-variant;
 	}
 	.text-field-container :global(svg) {
 		@apply h-6 w-6;

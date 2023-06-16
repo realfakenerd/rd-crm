@@ -25,7 +25,7 @@
 	let searchValue = '';
 	let chaveSelecionada = 'numero';
 	$: filterOjb = (obj: Content) => {
-        const lsearch = searchValue.toLowerCase();
+		const lsearch = searchValue.toLowerCase();
 		const key = obj[chaveSelecionada as keyof Content]?.toLowerCase();
 		return key?.includes(lsearch);
 	};
@@ -37,7 +37,15 @@
 	const { prospeccao } = data;
 </script>
 
-<div class="flex flex-col md:flex-row gap-2 items-center w-full">
+<svelte:head>
+	<title>Apsa - CRM</title>
+</svelte:head>
+
+<section>
+	<h1 class="text-display-medium">Apsa - CRM</h1>
+</section>
+
+<section class="flex flex-col md:flex-row gap-2 items-center w-full">
 	<TextField
 		supportingText={searchValue ? `${count} de resultados` : ''}
 		bind:value={searchValue}
@@ -69,8 +77,9 @@
 			</label>
 		{/each}
 	</ul>
-</div>
-<ul class="grid gap-2 place-items-center justify-center">
+</section>
+
+<ul class="grid gap-2 place-items-center justify-center min-h-[100dvh]">
 	{#each filteredItems as content, i (content.id)}
 		{#if init}
 			<Card {content} {i} />

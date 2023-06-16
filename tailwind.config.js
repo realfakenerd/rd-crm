@@ -5,6 +5,10 @@ import containerqueries from '@tailwindcss/container-queries'
 export default withMaterialColors({
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
+    fontFamily: {
+      sans: 'Roboto',
+      mono: 'Fira Code'
+    },
     fontSize: {
       'display-large': ['3.5rem', { lineHeight: '4rem' }],
       'display-medium': ['2.8rem', { lineHeight: '3.25rem' }],
