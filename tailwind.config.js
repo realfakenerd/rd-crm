@@ -45,5 +45,5 @@ export default withMaterialColors({
   plugins: [tail, containerqueries]
 },
   {
-    primary: '#ff00ff'
+    primary: '#ea652b'
   })
