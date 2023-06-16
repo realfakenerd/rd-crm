@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { easeEmphasized } from '$lib/easing';
-	import type { Map, LayerGroup } from 'leaflet';
-	import { onMount, onDestroy } from 'svelte';
+	import type { LayerGroup, Map } from 'leaflet';
+	import { onDestroy, onMount } from 'svelte';
 
 	export let bbox: string[] = [];
 	export let markerName = '';
@@ -22,7 +21,7 @@
 					[parseFloat(bbox[0]), parseFloat(bbox[2])],
 					[parseFloat(bbox[1]), parseFloat(bbox[3])]
 				],
-				{ padding: [20, 20], maxZoom: 16, animate: true, easeLinearity: easeEmphasized }
+				{ padding: [20, 20], maxZoom: 16 }
 			);
 
 			leafLet
@@ -46,7 +45,7 @@
 	});
 </script>
 
-<div class="rounded-lg" id="mapDiv" bind:this={mapDiv} />
+<div class="card" id="mapDiv" bind:this={mapDiv} />
 
 <style>
 	@import 'leaflet/dist/leaflet.css';

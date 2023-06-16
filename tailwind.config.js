@@ -1,6 +1,6 @@
 import tail from 'tail-material-design';
 import { withMaterialColors } from 'tailwind-material-colors'
-
+import containerqueries from '@tailwindcss/container-queries'
 
 export default withMaterialColors({
   content: ['./src/**/*.{html,js,svelte,ts}'],
@@ -42,7 +42,7 @@ export default withMaterialColors({
       ]
     }
   },
-  plugins: [tail]
+  plugins: [tail, containerqueries]
 },
   {
     primary: '#ff00ff'

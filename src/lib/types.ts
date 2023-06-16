@@ -8,15 +8,16 @@ export interface Prospeccao {
 export interface Content {
 	'nome do condomínio': string;
 	endereço: Endereço;
-	numero: number;
+	numero: string;
 	bairro: Bairro;
 	sindico?: string;
-	apto: number | string;
-	telefone: string;
-	unidades: number;
+	apto: string;
+	telefone: '(21) 0000-0000' | `(21) 9 ${number}-${number}`;
+	unidades: string;
 	administradora: string;
-	funcionarios: number;
-	data: number;
+	funcionarios: string;
+	data: string;
+	id: ReturnType<Crypto['randomUUID']>;
 }
 
 export enum Bairro {
@@ -75,4 +76,18 @@ export interface Extratags {
 
 export interface Namedetails {
 	name: string;
+}
+
+export interface ProspeccaoDDB {
+	$metadata: Metadata;
+	Count: number;
+	Items: Content[];
+	ScannedCount: number;
+}
+
+export interface Metadata {
+	httpStatusCode: number;
+	requestId: string;
+	attempts: number;
+	totalRetryDelay: number;
 }

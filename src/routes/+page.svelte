@@ -1,67 +1,85 @@
 <script lang="ts">
-	import { easeEmphasizedDecel } from '$lib/easing';
-	import { key } from '$lib/parseXLSX';
-	import type { ProspeccaoDef } from '$lib/types';
-	import { writable } from '@macfja/svelte-persistent-store';
+	import Card from '$lib/components/Card.svelte';
+	import TextField from '$lib/components/TextField.svelte';
+	import type { Content } from '$lib/types';
 	import { onMount } from 'svelte';
-	import { fly } from 'svelte/transition';
 
-	let xlsx = writable<ProspeccaoDef<'Junho'>>(key, {
-		Junho: {
-			content: [],
-			head: []
-		}
-	});
+	const filters = [
+		'nome do condomínio',
+		'endereço',
+		'numero',
+		'bairro',
+		'sindico',
+		'apto',
+		'telefone',
+		'unidades',
+		'administradora',
+		'funcionarios',
+		'data',
+		'id'
+	];
 
 	let init = false;
 	onMount(() => (init = true));
+
+	let searchValue = '';
+	let chaveSelecionada = 'numero';
+	$: filterOjb = (obj: Content) => {
+        const lsearch = searchValue.toLowerCase();
+		const key = obj[chaveSelecionada as keyof Content]?.toLowerCase();
+		return key?.includes(lsearch);
+	};
+
+	$: filteredItems = $prospeccao.Items.filter(filterOjb);
+	$: count = filteredItems.length;
+
+	export let data;
+	const { prospeccao } = data;
 </script>
 
-<ul class="grid gap-2 place-items-center justify-center">
-	{#each $xlsx.Junho.content as content, i (i)}
-		{#if init}
-			<a
-				in:fly={{
-					easing: easeEmphasizedDecel,
-					duration: 500,
-					y: 5,
-					delay: Math.round(Math.random() * (i * 50))
-				}}
-				href={`/condominio/${encodeURI(`${content.endereço} ${content.numero} ${content.bairro}`)}`}
-				class="card gap-2 card-filled w-full bg-slate-500"
-			>
-				<h1 class="capitalize text-title-large">{content['nome do condomínio']} - {content.bairro}</h1>
-                <div class="capitalize flex flex-col">
-                    <h1 class="text-body-large">Sindico: {content.sindico}</h1>
-                    <h2 class="text-body-medium">Administradora: {content.administradora}</h2>
-                    <div>
-                        <h3 class="text-body-medium">Unidades: {content.unidades === 0 ? 'Não informado' : content.unidades}</h3>
-                        <h3 class="text-body-medium">funcionarios: {content.funcionarios === 0 ? 'Não informado' : content.funcionarios}</h3>
-                    </div>
-                </div>
-
-				<div class="inline-flex flex-wrap gap-1">
-					<address class="chips bg-surface text-on-surface">
-						<div class="chips-layer" />
-						<span class="chips-content">
-							{content.endereço}
-							{content.numero}
-						</span>
-					</address>
-					<address class="chips bg-surface text-on-surface">
-						<div class="chips-layer" />
-						<a class="chips-content" href={`tel:+55${content.telefone}`}>
-							{content.telefone.includes('(21) 0000-0000') ? 'Sem telefone' : content.telefone}
-						</a>
-					</address>
+<div class="flex flex-col md:flex-row gap-2 items-center w-full">
+	<TextField
+		supportingText={searchValue ? `${count} de resultados` : ''}
+		bind:value={searchValue}
+		title="Pesquise"
+		icon="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+	/>
+	<ul class="inline-flex gap-1 flex-wrap min-w-[50%]">
+		{#each filters as filter, i (i)}
+			{@const id = crypto.randomUUID()}
+			{@const name = crypto.randomUUID()}
+			{@const selected = chaveSelecionada === filter ? true : false}
+			<label class="chips items-center {selected ? 'chips-selected' : ''}" for={id}>
+				<div class="chips-layer" />
+				<div class="chips-content">
+					<input
+						on:change={() => {
+							searchValue = '';
+							chaveSelecionada = filter;
+						}}
+						class="opacity-0 absolute"
+						type="radio"
+						{name}
+						bind:group={chaveSelecionada}
+						value={filter}
+						{id}
+					/>
+					{filter}
 				</div>
-			</a>
+			</label>
+		{/each}
+	</ul>
+</div>
+<ul class="grid gap-2 place-items-center justify-center">
+	{#each filteredItems as content, i (content.id)}
+		{#if init}
+			<Card {content} {i} />
 		{/if}
 	{/each}
 </ul>
 
-<style>
+<style lang="postcss">
 	ul.grid {
-		grid-template-columns: repeat(auto-fill, minmax(22rem,1fr));
+		grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
 	}
 </style>

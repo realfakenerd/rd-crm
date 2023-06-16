@@ -28,7 +28,7 @@ function parseXLSX(content: unknown, persistData = false) {
 
 			let j = 0;
 			for (j; j < head.length; j++) {
-				rowData[head[j]] = typeof row[j] === 'string' ? row[j].toLowerCase() : row[j];
+				rowData[head[j]] = String(row[j]).toLowerCase();
 			}
 
 			content.push(rowData);
