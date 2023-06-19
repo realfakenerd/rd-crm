@@ -10,7 +10,7 @@ export interface Content {
 	endereço: Endereço;
 	numero: string;
 	bairro: Bairro;
-	sindico?: string;
+	sindico: string;
 	apto: string;
 	telefone: '(21) 0000-0000' | `(21) 9 ${number}-${number}`;
 	unidades: string;

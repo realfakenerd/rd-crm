@@ -1,12 +1,16 @@
 <script lang="ts">
+	import icons from '$lib/assets/icons.js';
 	import Icon from '$lib/components/Icon.svelte';
 	import Map from '$lib/components/Map.svelte';
+	import TextField from '$lib/components/TextField.svelte';
 
 	export let data;
 	const { condominio, streamed } = data;
 	const cond = condominio.Item;
 
 	const markerName = `Condominio ${cond['nome do condomínio']}, ${cond.endereço} - ${cond.numero}`;
+
+	let hiddenForm = true;
 </script>
 
 <svelte:head>
@@ -19,49 +23,79 @@
 
 <section class="flex w-full flex-col gap-2 md:flex-row">
 	<div class="card card-filled w-full gap-2 text-body-medium">
-		<h2 class="text-title-large">Info</h2>
-		<ul class="list rounded bg-surface capitalize">
-			<li class="item list-lines-2">
-				<div class="list-item-body">
-					<h2 class="list-headline">Administradora</h2>
-					<p class="list-description">{cond.administradora}</p>
-				</div>
-			</li>
-			<hr class="divider-list-inset" />
-			<li class="list-lines-2 item">
-				<div class="list-item-body">
-					<h2 class="list-headline">Sindico</h2>
-					<p class="list-description">{cond.sindico}</p>
-				</div>
-			</li>
-			<hr class="divider-list-inset" />
-			<li class="list-lines-2 item">
-				<div class="list-item-body">
-					<h2 class="list-headline">Unidades</h2>
-					<p class="list-description">{cond.unidades}</p>
-				</div>
-			</li>
-			<hr class="divider-list-inset" />
-			<li class="list-lines-2 item">
-				<div class="list-item-body">
-					<h2 class="list-headline">Funcionarios</h2>
-					<p class="list-description">{cond.funcionarios}</p>
-				</div>
-			</li>
-			<hr class="divider-list-inset" />
-			<li class="list-lines-2 item">
-				<div class="list-item-body">
-					<h2 class="list-headline">Endereco</h2>
-					<p class="list-description">{cond.endereço}, {cond.bairro} - {cond.numero}</p>
-				</div>
-			</li>
-		</ul>
+		<section class="inline-flex items-center justify-between">
+			<h2 class="text-title-large">Info</h2>
+			<div>
+				<button
+					on:click={() => (hiddenForm = !hiddenForm)}
+					class="icon-left btn interactive-bg-secondary"
+				>
+					<Icon width={18} d={icons.edit} />
+					<span class="text-label-large"> Editar </span>
+				</button>
+				<button class="icon-left btn interactive-bg-error">
+					<Icon width={18} d={icons.remove} />
+					<span class="text-label-large"> Remover </span>
+				</button>
+			</div>
+		</section>
+		{#if hiddenForm}
+			<ul class="list rounded bg-surface capitalize">
+				<li class="item list-lines-2">
+					<div class="list-item-body">
+						<h2 class="list-headline">Administradora</h2>
+						<p class="list-description">{cond.administradora}</p>
+					</div>
+				</li>
+				<hr class="divider-list-inset" />
+				<li class="list-lines-2 item">
+					<div class="list-item-body">
+						<h2 class="list-headline">Sindico</h2>
+						<p class="list-description">{cond.sindico}</p>
+					</div>
+				</li>
+				<hr class="divider-list-inset" />
+				<li class="list-lines-2 item">
+					<div class="list-item-body">
+						<h2 class="list-headline">Unidades</h2>
+						<p class="list-description">{cond.unidades}</p>
+					</div>
+				</li>
+				<hr class="divider-list-inset" />
+				<li class="list-lines-2 item">
+					<div class="list-item-body">
+						<h2 class="list-headline">Funcionarios</h2>
+						<p class="list-description">{cond.funcionarios}</p>
+					</div>
+				</li>
+				<hr class="divider-list-inset" />
+				<li class="list-lines-2 item">
+					<div class="list-item-body">
+						<h2 class="list-headline">Endereco</h2>
+						<p class="list-description">{cond.endereço}, {cond.bairro} - {cond.numero}</p>
+					</div>
+				</li>
+			</ul>
+		{:else}
+			<form action="?/atualizar" method="POST" class="flex flex-col gap-3 rounded bg-surface px-2 py-3">
+				<TextField bind:value={cond.administradora} icon={icons.administradora} title="Admnistradora" />
+				<TextField bind:value={cond.sindico} icon={icons.sindico} title="Sindico" />
+				<section class="flex flex-row gap-2">
+					<TextField bind:value={cond.unidades} icon={icons.hash} title="Unidades" />
+					<TextField bind:value={cond.funcionarios} icon={icons.group_people} title="Funcionarios" />
+				</section>
+				<TextField bind:value={cond.endereço} icon={icons.condominio} title="Endereço" />
+				<button class="btn interactive-bg-primary w-full text-label-large" type="submit">
+					Enviar
+				</button>
+			</form>
+		{/if}
 	</div>
 
 	{#await streamed.endereco}
 		<div
 			id="mapDivAwait"
-			class="mapDivAwait card animate-pulse items-center justify-center bg-surface-variant fill-tertiary"
+			class="mapDivAwait card w-full animate-pulse items-center justify-center bg-surface-variant fill-tertiary"
 		>
 			<Icon
 				width={64}
@@ -77,7 +111,7 @@
 				{markerName}
 			/>
 		{:else}
-			<div class="mapDivAwait card bg-error">
+			<div class="mapDivAwait card w-full bg-error">
 				<h1 class="text-title-large">Não foi possível carregar o mapa</h1>
 				<p class="text-body-large">:(</p>
 			</div>
@@ -88,7 +122,7 @@
 <style>
 	@import 'leaflet/dist/leaflet.css';
 	.mapDivAwait {
-		height: 50dvh;
+		min-height: 50dvh;
 	}
 
 	.list-item-body {

@@ -1,25 +1,35 @@
 <script lang="ts">
+	import icons from '$lib/assets/icons';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import Form from '$lib/components/Form.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import '@fontsource/roboto/400.css';
 	import '@fontsource/roboto/500.css';
-	import '../app.css';
-	import { easeEmphasizedDecel, easeEmphasizedAccel } from '$lib/easing';
 	import { fly } from 'svelte/transition';
+	import '../app.css';
 
 	let showDialog = false;
 
 	export let data;
 
 	const routes = [
-		{ name: 'home', href: '/', d: 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' },
-		{ name: 'condominios', href: '/condominio', d: 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' },
-		{ name: 'sobre', href: '/sobre', d: 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' }
+		{
+			name: 'home',
+			href: '/',
+			d: {
+				o: 'M12 5.69l5 4.5V18h-2v-6H9v6H7v-7.81l5-4.5M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z',
+				f: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'
+			}
+		},
+		{
+			name: 'condominios',
+			href: '/condominio',
+			d: { o: icons.condominio, f: icons.condominio }
+		}
 	];
 </script>
 
-<header class="fixed capitalize bottom-0 z-[999] w-full sm:static md:w-[86px]">
+<header style="z-index: 1500;" class="fixed bottom-0 w-full capitalize sm:static md:w-[86px]">
 	<div class="hidden h-screen flex-col items-center justify-evenly md:flex">
 		<nav class="custom-navbar flex-col items-center gap-y-3 px-3 py-2">
 			<ul>
@@ -40,7 +50,7 @@
 									: ''} "
 							>
 								<span class="fill-on-background group-hover:fill-on-secondary-container">
-									<Icon d={data.currentPathname === href ? d : d} />
+									<Icon d={data.currentPathname === href ? d.f : d.o} />
 								</span>
 							</div>
 							<span>
@@ -56,7 +66,7 @@
 				on:click={() => (showDialog = !showDialog)}
 				class="fab fab-normal interactive-bg-tertiary-container fill-on-tertiary-container"
 			>
-				<Icon d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+				<Icon d={icons.plus} />
 			</button>
 		</div>
 	</div>
@@ -67,7 +77,7 @@
 					on:click={() => (showDialog = !showDialog)}
 					class="fab fab-normal interactive-bg-tertiary-container fill-on-tertiary-container"
 				>
-					<Icon d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+					<Icon d={icons.plus} />
 				</button>
 			</div>
 		</div>
@@ -88,7 +98,7 @@
 							: ''} "
 					>
 						<span class="fill-on-background group-hover:fill-on-secondary-container">
-							<Icon d={data.currentPathname === href ? d : d} />
+							<Icon d={data.currentPathname === href ? d.f : d.o} />
 						</span>
 					</div>
 					<span>{name}</span>
@@ -100,8 +110,8 @@
 
 {#key data.currentPathname}
 	<main
-		in:fly={{ y: -5, duration: 250, delay: 250, easing: easeEmphasizedDecel }}
-		out:fly={{ y: 5, duration: 250, easing: easeEmphasizedAccel }}
+		in:fly={{ y: -5, duration: 250, delay: 250 }}
+		out:fly={{ y: 5, duration: 250 }}
 		class="flex flex-1 flex-col gap-2 overflow-auto p-3"
 	>
 		<slot />

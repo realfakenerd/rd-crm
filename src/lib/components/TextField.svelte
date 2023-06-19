@@ -106,9 +106,6 @@
 	.text-field-container {
 		@apply relative h-14 w-full text-on-surface-variant;
 	}
-	.text-field-container :global(svg) {
-		@apply h-6 w-6;
-	}
 	.text-field-input {
 		@apply absolute inset-0 h-full w-full appearance-none border-none bg-transparent 
 		px-4 text-on-surface outline-none;

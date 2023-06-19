@@ -52,6 +52,6 @@
 
 <style>
 	#mapDiv {
-		height: 50dvh;
+		min-height: 50dvh;
 	}
 </style>
