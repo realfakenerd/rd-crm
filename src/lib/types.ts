@@ -91,3 +91,8 @@ export interface Metadata {
 	attempts: number;
 	totalRetryDelay: number;
 }
+
+export interface Condominio {
+	$metadata: Metadata;
+	Item: Content;
+}

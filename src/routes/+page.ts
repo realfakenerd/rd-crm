@@ -6,7 +6,7 @@ import type { PageLoad } from './$types';
 
 export const load: PageLoad = (async ({ fetch }) => {
  
-  const res = await fetch('/api/prospeccao');
+  const res = await fetch('/api/condominio');
   const data = await res.json() as ProspeccaoDDB;
 
   return {

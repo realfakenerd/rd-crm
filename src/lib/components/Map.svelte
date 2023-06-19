@@ -2,7 +2,6 @@
 	import { browser } from '$app/environment';
 	import type { LayerGroup, Map } from 'leaflet';
 	import { onDestroy, onMount } from 'svelte';
-
 	export let bbox: string[] = [];
 	export let markerName = '';
 	export let coord = {
@@ -13,15 +12,18 @@
 	let map: Map | LayerGroup<any>;
 	let mapDiv: HTMLDivElement;
 
+
 	onMount(async () => {
 		if (browser) {
 			const leafLet = await import('leaflet');
-			map = leafLet.map(mapDiv).fitBounds(
+			map = leafLet.map(mapDiv, {
+				preferCanvas: true
+			}).fitBounds(
 				[
 					[parseFloat(bbox[0]), parseFloat(bbox[2])],
 					[parseFloat(bbox[1]), parseFloat(bbox[3])]
 				],
-				{ padding: [20, 20], maxZoom: 16 }
+				{ padding: [20, 20] }
 			);
 
 			leafLet
@@ -45,10 +47,9 @@
 	});
 </script>
 
-<div class="card" id="mapDiv" bind:this={mapDiv} />
+<div class="card capitalize" id="mapDiv" bind:this={mapDiv} />
 
 <style>
-	@import 'leaflet/dist/leaflet.css';
 	#mapDiv {
 		height: 50dvh;
 	}

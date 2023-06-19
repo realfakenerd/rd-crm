@@ -95,7 +95,7 @@
 
 		<a
 			class="btn interactive-bg-primary"
-			href={`/condominio/${encodeURI(`${content.endereço} ${content.numero} ${content.bairro}`)}`}
+			href={`/condominio/${content.id}`}
 		>
 			+ info
 		</a>
