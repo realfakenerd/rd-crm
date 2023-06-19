@@ -43,7 +43,7 @@
 </svelte:head>
 
 <section class="flex w-full flex-col items-center gap-2">
-	<section class="flex w-full flex-row justify-between">
+	<section class="flex w-full flex-col md:flex-row justify-between">
 		<h1 class="text-display-medium">Condominios</h1>
 		<div class="w-full md:w-1/2">
 			<TextField
