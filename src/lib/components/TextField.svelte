@@ -237,9 +237,7 @@
 	.has-trailing-icon.text-field-input[type='date'] {
 		@apply pr-4;
 	}
-	.text-field-input[type='date'] ~ .trailingButton {
-		@apply hidden;
-	}
+
 	.text-field-input[type='date']::-webkit-calendar-picker-indicator,
 	.text-field-input[type='date']::-webkit-inner-spin-button {
 		display: none;
@@ -248,9 +246,6 @@
 	@media (orientation: landscape) and (forced-colors: none) {
 		.text-field-input[type='date'] {
 			padding-right: 3.25rem;
-		}
-		.text-field-input[type='date'] ~ .trailingButton {
-			display: inline-flex;
 		}
 
 		@supports not selector(::-webkit-calendar-picker-indicator) {

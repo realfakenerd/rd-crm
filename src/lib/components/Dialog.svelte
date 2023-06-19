@@ -28,7 +28,7 @@
 	<dialog
 		tabindex="-1"
 		aria-labelledby="modal-title"
-		class='md:max-w-[70dvw] {isErrorModal ? 'bg-error-container' : 'bg-surface'}'
+		class="md:max-w-[70dvw] {isErrorModal ? 'bg-error-container' : 'bg-surface'}"
 		bind:this={dialog}
 		aria-modal={open}
 		aria-hidden={!open}
@@ -49,7 +49,7 @@
 		<div class="container" on:click|stopPropagation aria-describedby="modal-description">
 			<div id="modal-description" class="sr-only">{title}. {confirmLabel}. {cancelLabel}</div>
 			<h2 class="text-headline-small" role="heading" aria-level="2">{title}</h2>
-			<div class="text-body-medium w-full text-on-error-container/70"><slot /></div>
+			<div class="w-full text-body-medium text-on-error-container/70"><slot /></div>
 
 			{#if confirmLabel}
 				<div class="buttons">
@@ -84,7 +84,7 @@
 
 <style lang="postcss">
 	dialog {
-		@apply overflow-auto rounded-[1.75rem] border-none p-0 w-full mx-auto;
+		@apply mx-auto w-full overflow-auto rounded-[1.75rem] border-none p-0;
 	}
 	dialog::backdrop {
 		background-color: rgb(0 0 0 / 0.5);

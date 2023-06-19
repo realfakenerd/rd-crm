@@ -4,8 +4,8 @@
 
 <form class="flex flex-col gap-2">
 	<TextField title="Nome" />
-	<div class="flex flex-col md:flex-row w-full gap-2">
-		<section class="flex flex-col w-full">
+	<div class="flex w-full flex-col gap-2 md:flex-row">
+		<section class="flex w-full flex-col">
 			<TextField title="Endereço" />
 			<section class="flex flex-row gap-2">
 				<TextField title="Numero" />
@@ -14,13 +14,13 @@
 			<TextField title="Bairro" />
 		</section>
 
-		<section class="flex flex-col w-full">
-            <TextField title="Sindico" />
-			<section class="flex flex-row gap-2 w-full">
+		<section class="flex w-full flex-col">
+			<TextField title="Sindico" />
+			<section class="flex w-full flex-row gap-2">
 				<TextField title="Unidades" />
 				<TextField title="Funcionários" />
 			</section>
-            <TextField title="Telefone" />
+			<TextField title="Telefone" />
 		</section>
 	</div>
 	<TextField title="Administradora" />

@@ -1,10 +1,7 @@
-import { TABLE_NAME, db } from "$lib/aws";
-import {
-    ScanCommand,
-    type ScanCommandInput
-} from '@aws-sdk/lib-dynamodb';
-import { json } from "@sveltejs/kit";
-import type { RequestHandler } from "./$types";
+import { TABLE_NAME, db } from '$lib/aws';
+import { ScanCommand, type ScanCommandInput } from '@aws-sdk/lib-dynamodb';
+import { json } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 export const GET = (async () => {
 	const param: ScanCommandInput = {
 		TableName: TABLE_NAME

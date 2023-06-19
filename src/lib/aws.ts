@@ -11,4 +11,3 @@ const db = new DynamoDBClient({
 
 const TABLE_NAME = 'Proscpecao';
 export { TABLE_NAME, db };
-

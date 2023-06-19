@@ -39,7 +39,7 @@ function parseXLSX(content: unknown, persistData = false) {
 
 	if (persistData) {
 		//@ts-expect-error asas
-		persist(writable<ProspeccaoDef<'Junho'>>(result), createIndexedDBStorage(), key)
+		persist(writable<ProspeccaoDef<'Junho'>>(result), createIndexedDBStorage(), key);
 	}
 
 	return result;

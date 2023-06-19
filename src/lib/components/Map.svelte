@@ -12,19 +12,20 @@
 	let map: Map | LayerGroup<any>;
 	let mapDiv: HTMLDivElement;
 
-
 	onMount(async () => {
 		if (browser) {
 			const leafLet = await import('leaflet');
-			map = leafLet.map(mapDiv, {
-				preferCanvas: true
-			}).fitBounds(
-				[
-					[parseFloat(bbox[0]), parseFloat(bbox[2])],
-					[parseFloat(bbox[1]), parseFloat(bbox[3])]
-				],
-				{ padding: [20, 20] }
-			);
+			map = leafLet
+				.map(mapDiv, {
+					preferCanvas: true
+				})
+				.fitBounds(
+					[
+						[parseFloat(bbox[0]), parseFloat(bbox[2])],
+						[parseFloat(bbox[1]), parseFloat(bbox[3])]
+					],
+					{ padding: [20, 20] }
+				);
 
 			leafLet
 				.tileLayer(
@@ -47,7 +48,7 @@
 	});
 </script>
 
-<div class="card capitalize" id="mapDiv" bind:this={mapDiv} />
+<div class="card w-full capitalize" id="mapDiv" bind:this={mapDiv} />
 
 <style>
 	#mapDiv {
