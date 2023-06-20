@@ -5,7 +5,7 @@
 	import { createEventDispatcher, tick } from 'svelte';
 
 	export let title: string;
-	export let confirmLabel: string;
+	export let confirmLabel: string | null = null;
 	export let cancelLabel: string | null = null;
 	export let preventDismiss = false;
 	const dispatch = createEventDispatcher();
@@ -46,9 +46,11 @@
 		out:enterExit={{ duration: 200, easing: easeEmphasizedAccel }}
 		use:outroClass
 	>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div class="container" on:click|stopPropagation aria-describedby="modal-description">
 			<div id="modal-description" class="sr-only">{title}. {confirmLabel}. {cancelLabel}</div>
-			<h2 class="text-headline-small" role="heading" aria-level="2">{title}</h2>
+			<!-- svelte-ignore a11y-no-redundant-roles -->
+			<h2 class="text-headline-small" role="heading" aria-level={2}>{title}</h2>
 			<div class="w-full text-body-medium text-on-error-container/70"><slot /></div>
 
 			{#if confirmLabel}

@@ -51,7 +51,8 @@
 		"vite-plugin-remove-console": "^2.1.1",
 		"workbox-core": "^7.0.0",
 		"workbox-recipes": "^7.0.0",
-		"xlsx": "^0.18.5"
+		"xlsx": "^0.18.5",
+		"zod": "^3.21.4"
 	},
 	"type": "module"
 }

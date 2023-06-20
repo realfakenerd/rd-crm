@@ -91,7 +91,7 @@
 			</div>
 		{/if}
 		<div class="text-field-layer" />
-		<label for={id} id={`${id}-label`}>
+		<label for={id}>
 			{title}
 		</label>
 	</div>
@@ -120,7 +120,7 @@
 		transition: all 250ms, font 500ms;
 		transition-timing-function: cubic-bezier(0.254, 0.029, 0, 1.2);
 		color: rgb(var(--error, currentColor));
-		@apply pointer-events-none absolute left-4 top-4;
+		@apply pointer-events-none absolute left-4 top-5;
 	}
 	.error {
 		--error: var(--color-error);

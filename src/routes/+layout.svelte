@@ -8,8 +8,6 @@
 	import { fly } from 'svelte/transition';
 	import '../app.css';
 
-	let showDialog = false;
-
 	export let data;
 
 	const routes = [
@@ -61,26 +59,8 @@
 				{/each}
 			</ul>
 		</nav>
-		<div>
-			<button
-				on:click={() => (showDialog = !showDialog)}
-				class="fab fab-normal interactive-bg-tertiary-container fill-on-tertiary-container"
-			>
-				<Icon d={icons.plus} />
-			</button>
-		</div>
 	</div>
 	<div class="flex w-full flex-col gap-y-2 md:hidden">
-		<div class="self-end pr-8">
-			<div>
-				<button
-					on:click={() => (showDialog = !showDialog)}
-					class="fab fab-normal interactive-bg-tertiary-container fill-on-tertiary-container"
-				>
-					<Icon d={icons.plus} />
-				</button>
-			</div>
-		</div>
 		<nav class="custom-navbar h-20 w-full flex-row bg-background px-2 py-0">
 			{#each routes as { href, d, name }, i (i)}
 				<a
@@ -117,10 +97,6 @@
 		<slot />
 	</main>
 {/key}
-
-<Dialog title="Novo Condominio" confirmLabel="Enviar" cancelLabel="Cancelar" bind:open={showDialog}>
-	<Form />
-</Dialog>
 
 <style lang="scss">
 	main.flex {

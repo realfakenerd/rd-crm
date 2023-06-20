@@ -1,6 +1,9 @@
 <script lang="ts">
 	import icons from '$lib/assets/icons.js';
 	import Card from '$lib/components/Card.svelte';
+	import Dialog from '$lib/components/Dialog.svelte';
+	import Form from '$lib/components/Form.svelte';
+	import Icon from '$lib/components/Icon.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import type { Content } from '$lib/types';
 	import { onMount } from 'svelte';
@@ -36,15 +39,29 @@
 
 	export let data;
 	const { prospeccao } = data;
+
+	let showDialog = false;
 </script>
 
 <svelte:head>
 	<title>Apsa - Condominios</title>
 </svelte:head>
 
+<Dialog title="Novo Condominio" bind:open={showDialog}>
+	<Form />
+</Dialog>
+
 <section class="flex w-full flex-col items-center gap-2">
-	<section class="flex w-full flex-col md:flex-row justify-between">
-		<h1 class="text-display-medium">Condominios</h1>
+	<section class="flex w-full flex-col justify-between md:flex-row gap-2">
+		<div class="flex flex-row gap-2">
+			<button
+				on:click={() => (showDialog = !showDialog)}
+				class="fab fab-normal interactive-bg-tertiary-container fill-on-tertiary-container"
+			>
+				<Icon d={icons.plus} />
+			</button>
+			<h1 class="text-display-medium">Condominios</h1>
+		</div>
 		<div class="w-full md:w-1/2">
 			<TextField
 				supportingText={searchValue ? `${count} de resultados` : ''}

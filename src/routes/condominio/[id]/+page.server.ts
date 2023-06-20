@@ -1,13 +1,11 @@
+import { extractFormData } from '$lib/utils';
 import type { Actions } from './$types';
 
 export const actions = {
 	atualizar: async ({ request, fetch, params }) => {
-		const data = await request.formData();
-		const administradora = data.get('Admnistradora');
-		const sindico = data.get('Sindico');
-		const unidades = data.get('Unidades');
-		const funcionarios = data.get('Funcionarios');
-		const endereço = data.get('Endereço');
+		const { administradora, sindico, unidades, funcionarios, endereço } = extractFormData(
+			await request.formData()
+		);
 
 		const res = await fetch('/api/condominio/' + params.id, {
 			method: 'PUT',
