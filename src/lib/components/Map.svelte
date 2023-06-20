@@ -11,8 +11,15 @@
 	let map: Map | LayerGroup<any>;
 	let mapDiv: HTMLDivElement;
 
+	export let v;
+
 	onMount(async () => {
 		const leafLet = await import('leaflet');
+		console.log(bbox);
+		
+		console.log(leafLet.latLng(parseFloat(bbox[0]), parseFloat(bbox[2])));
+		console.log(leafLet.latLng(parseFloat(bbox[1]), parseFloat(bbox[3])));
+
 		map = leafLet
 			.map(mapDiv, {
 				preferCanvas: true
@@ -22,8 +29,10 @@
 					[parseFloat(bbox[0]), parseFloat(bbox[2])],
 					[parseFloat(bbox[1]), parseFloat(bbox[3])]
 				],
-				{ padding: [20, 20] }
+				
 			);
+
+		console.log(coord);
 
 		leafLet
 			.tileLayer(
@@ -34,7 +43,7 @@
 				}
 			)
 			.addTo(map);
-		leafLet.marker([coord.lat, coord.lon]).addTo(map).bindPopup(markerName).openPopup();
+		leafLet.marker({ lat: coord.lat, lng: coord.lon }).addTo(map).bindPopup(markerName).openPopup();
 	});
 
 	onDestroy(async () => {
