@@ -26,7 +26,18 @@
 	}
 
 	onMount(() => {
-		const centro = encontrarCentro(value);
+		const centro = value.reduce(
+			(acc, { lat, lon }) => {
+				acc.lat += parseFloat(lat);
+				acc.lon += parseFloat(lon);
+				return acc;
+			},
+			{ lat: 0, lon: 0 }
+		);
+
+		centro.lat /= value.length;
+		centro.lon /= value.length;
+
 		map = new Map({
 			maplibreLogo: true,
 			antialias: true,
