@@ -126,7 +126,6 @@
 </section>
 
 <style>
-	@import 'leaflet/dist/leaflet.css';
 	.mapDivAwait {
 		min-height: 50dvh;
 	}
