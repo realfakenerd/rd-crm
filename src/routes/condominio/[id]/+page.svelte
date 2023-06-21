@@ -3,7 +3,6 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import Map from '$lib/components/Map.svelte';
 	import TextField from '$lib/components/TextField.svelte';
-	import { generateEmbedLink } from '$lib/utils.js';
 
 	export let data;
 	const { condominio, streamed } = data;
@@ -116,13 +115,7 @@
 		</div>
 	{:then value}
 		{#if value.length > 0}
-			{@const v = value[0]}
-			<Map
-				{v}
-				bbox={v.boundingbox}
-				coord={{ lat: parseFloat(v.lat), lon: parseFloat(v.lon) }}
-				{markerName}
-			/>
+			<Map {value} {markerName} />
 		{:else}
 			<div class="mapDivAwait card w-full bg-error">
 				<h1 class="text-title-large">Não foi possível carregar o mapa</h1>
@@ -131,7 +124,6 @@
 		{/if}
 	{/await}
 </section>
-
 
 <style>
 	@import 'leaflet/dist/leaflet.css';

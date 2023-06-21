@@ -39,7 +39,6 @@
 
 	export let data;
 	const { prospeccao } = data;
-
 	let showDialog = false;
 </script>
 

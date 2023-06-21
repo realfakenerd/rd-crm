@@ -1,49 +1,61 @@
 <script lang="ts">
-	import type { LayerGroup, Map } from 'leaflet';
+	import type { GeoCodeData } from '$lib/types';
+	import { Map, Marker, NavigationControl, Popup } from 'maplibre-gl';
+	import 'maplibre-gl/dist/maplibre-gl.css';
 	import { onDestroy, onMount } from 'svelte';
-	export let bbox: string[] = [];
 	export let markerName = '';
-	export let coord = {
-		lat: 0,
-		lon: 0
-	};
 
-	let map: Map | LayerGroup<any>;
+	let map: Map;
 	let mapDiv: HTMLDivElement;
 
-	export let v;
+	export let value: GeoCodeData[] = [];
 
-	onMount(async () => {
-		const leafLet = await import('leaflet');
-		console.log(bbox);
-		
-		console.log(leafLet.latLng(parseFloat(bbox[0]), parseFloat(bbox[2])));
-		console.log(leafLet.latLng(parseFloat(bbox[1]), parseFloat(bbox[3])));
+	function encontrarCentro(coordenadas: GeoCodeData[]) {
+		let somaLat = 0;
+		let somaLon = 0;
 
-		map = leafLet
-			.map(mapDiv, {
-				preferCanvas: true
+		coordenadas.forEach(function (resultado: GeoCodeData) {
+			somaLat += parseFloat(resultado.lat);
+			somaLon += parseFloat(resultado.lon);
+		});
+
+		const mediaLat = somaLat / coordenadas.length;
+		const mediaLon = somaLon / coordenadas.length;
+
+		return { lat: mediaLat, lon: mediaLon };
+	}
+
+	onMount(() => {
+		const centro = encontrarCentro(value);
+		map = new Map({
+			maplibreLogo: true,
+			antialias: true,
+			container: mapDiv,
+			style: 'https://api.maptiler.com/maps/streets-v2-dark/style.json?key=3PtdP7z1W2HexsiXHCE7',
+			hash: true,
+			zoom: 15,
+			pitch: 45,
+			center: {
+				lat: centro.lat,
+				lon: centro.lon
+			}
+		});
+
+		const popup = new Popup().setText(markerName);
+
+		value.forEach((val) => {
+			new Marker({
+				color: 'rgb(var(--color-primary))'
 			})
-			.fitBounds(
-				[
-					[parseFloat(bbox[0]), parseFloat(bbox[2])],
-					[parseFloat(bbox[1]), parseFloat(bbox[3])]
-				],
-				
-			);
+				.setLngLat({
+					lon: parseFloat(val.lon),
+					lat: parseFloat(val.lat)
+				})
+				.setPopup(popup)
+				.addTo(map);
+		});
 
-		console.log(coord);
-
-		leafLet
-			.tileLayer(
-				'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?access_token=zIfM2mGEZ8pdHVp2nR1nvWqcuX7W2ZjoNOzPZz98',
-				{
-					accessToken: 'zIfM2mGEZ8pdHVp2nR1nvWqcuX7W2ZjoNOzPZz98',
-					attribution: 'Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright'
-				}
-			)
-			.addTo(map);
-		leafLet.marker({ lat: coord.lat, lng: coord.lon }).addTo(map).bindPopup(markerName).openPopup();
+		map.addControl(new NavigationControl(), 'top-right');
 	});
 
 	onDestroy(async () => {
@@ -54,7 +66,7 @@
 	});
 </script>
 
-<div class="card w-full capitalize" id="mapDiv" bind:this={mapDiv} />
+<div class="card w-full bg-surface-variant" id="mapDiv" bind:this={mapDiv} />
 
 <style>
 	#mapDiv {

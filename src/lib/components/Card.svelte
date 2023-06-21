@@ -1,9 +1,23 @@
 <script lang="ts">
 	import icons from '$lib/assets/icons';
-	import type { Content } from '$lib/types';
+	import { Bairro, Endereço, type Content } from '$lib/types';
 	import Icon from './Icon.svelte';
 
-	export let content: Content;
+	export let content: Content = {
+		 'nome do condomínio': '',
+		 'endereço': Endereço.JoãoLira,
+		 numero: '',
+		 bairro: Bairro.Leblon,
+		 sindico: '',
+		 apto: '0',
+		 telefone: '(21) 0000-0000',
+		 unidades: '0',
+		 administradora: '',
+		 funcionarios: '0',
+		 data: '',
+		 id: 's-s-s-s-s'
+	 };
+
 
 </script>
 
