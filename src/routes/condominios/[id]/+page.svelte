@@ -16,7 +16,7 @@
 	<title>Condominio - {cond['nome do condomínio']}</title>
 </svelte:head>
 
-<div style:--tag="h-{cond['nome do condomínio'].split(' ').join('-')}" class="card card-filled">
+<div class="card card-filled">
 	<h1 class="text-display-medium capitalize">
 		Condominio {cond['nome do condomínio']}
 	</h1>
@@ -42,7 +42,7 @@
 		</section>
 		{#if hiddenForm}
 			<ul class="list rounded bg-surface capitalize">
-				<li class="item list-lines-2">
+				<li class="list-lines-2 item">
 					<div class="list-item-body">
 						<h2 class="list-headline">Administradora</h2>
 						<p class="list-description">{cond.administradora}</p>

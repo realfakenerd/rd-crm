@@ -5,7 +5,6 @@
 
 	export let content: Content = {
 		'nome do condomínio': '',
-
 		//@ts-expect-error
 		endereço: '',
 		numero: '',
@@ -26,7 +25,7 @@
 	id={content.id}
 	class="card interactive-bg-surface-variant w-full gap-2 fill-on-surface-variant"
 >
-	<hgroup style:--tag="h-{content['nome do condomínio'].split(' ').join('-')}">
+	<hgroup>
 		<h1 class="text-title-large capitalize">
 			{content['nome do condomínio']}
 		</h1>

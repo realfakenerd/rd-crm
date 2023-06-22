@@ -23,9 +23,6 @@
 		'id'
 	];
 
-	let init = false;
-	onMount(() => (init = true));
-
 	let searchValue = '';
 	let chaveSelecionada = 'numero';
 	$: filterOjb = (obj: Content) => {
@@ -51,8 +48,8 @@
 </Dialog>
 
 <section class="flex w-full flex-col items-center gap-2" data-page="condominios">
-	<section class="flex w-full flex-col justify-between md:flex-row gap-2">
-		<div class="flex flex-row gap-2">
+	<section class="flex w-full flex-col justify-between gap-2 md:flex-row">
+		<div class="flex flex-row-reverse justify-between gap-2 md:flex-row md:justify-start">
 			<button
 				on:click={() => (showDialog = !showDialog)}
 				class="fab fab-normal interactive-bg-tertiary-container fill-on-tertiary-container"
@@ -99,9 +96,7 @@
 
 <ul class="grid place-items-center justify-center gap-2">
 	{#each filteredItems as content (content.id)}
-		{#if init}
-			<Card {content} />
-		{/if}
+		<Card {content} />
 	{/each}
 </ul>
 
