@@ -1,4 +1,6 @@
-import type { Address, NominatimOpenAPI } from "./types";
+import { beforeNavigate } from '$app/navigation';
+import { navigating } from '$app/stores';
+import { onDestroy } from 'svelte';
 
 type StringOrNull = string | null;
 export function extractFormData(data: FormData) {
@@ -29,37 +31,47 @@ export function extractFormData(data: FormData) {
 	};
 }
 
-interface EmbedLinkOptions {
-	latitude: string;
-	longitude: string;
-	address: Address;
-	tolog: NominatimOpenAPI
+function getNavigationStore() {
+	const callbacks: ((val?: never) => void)[] = [];
+
+	const navigation = {
+		...navigating,
+		complete: async () => {
+			await new Promise((res) => {
+				callbacks.push(res);
+			});
+		}
+	};
+
+	// This used to subscribe inside the callback, but that resolved the promise too early
+	const unsub = navigating.subscribe((n) => {
+		if (n === null) {
+			while (callbacks.length > 0) {
+				const res = callbacks.pop();
+				res?.();
+			}
+		}
+	});
+
+	onDestroy(() => {
+		unsub();
+	});
+
+	return navigation;
 }
 
-export function generateEmbedLink({ latitude, longitude, address, tolog }: EmbedLinkOptions) {
-	const baseUrl = "https://www.google.com/maps/embed?";
-  let params = "";
+export const preparePageTransition = () => {
+	const navigation = getNavigationStore();
 
-  console.log(tolog);
-  const encodedAddress = encodeURI(`${address.road} ${address.suburb} ${address.city}`);
- 
-  params += "pb=!1m18";
-  params += "!1m12!1m3!1d3359.9355246584155";
-  params += "!2d" + longitude.toString();
-  params += "!3d" + latitude.toString();
-  params += "!2m3!1f0!2f0!3f0";
-  params += "!3m2!1i1024!2i768";
-  params += "!4f13.1";
-  params += "!3m3!1m2!1s" + encodedAddress;
-  params += "!2s" + 'pt-BR';
-  params += "!5e1";
-  params += "!4v" + Date.now().toString();
-  params += "!5m2!1spt-BR!2sbr";
-  params += "!6m1!1e1";
-  params += "!7i" + tolog.place_id;
+	// before navigating, start a new transition
+	beforeNavigate(() => {
+		if (!document.startViewTransition) {
+			return;
+		}
+		const navigationComplete = navigation.complete();
 
-  const embedUrl = baseUrl + params;
-
-  console.log(embedUrl)
-  return embedUrl;
-}
+		document.startViewTransition(async () => {
+			await navigationComplete;
+		});
+	});
+};
