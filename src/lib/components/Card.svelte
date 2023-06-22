@@ -5,8 +5,11 @@
 
 	export let content: Content = {
 		'nome do condomínio': '',
+
+		//@ts-expect-error
 		endereço: '',
 		numero: '',
+		//@ts-expect-error
 		bairro: '',
 		sindico: '',
 		apto: '0',
@@ -23,8 +26,8 @@
 	id={content.id}
 	class="card interactive-bg-surface-variant w-full gap-2 fill-on-surface-variant"
 >
-	<hgroup>
-		<h1 class="text-title-large capitalize" style:--tag="h-{content['nome do condomínio'].split(' ').join('-')}">
+	<hgroup style:--tag="h-{content['nome do condomínio'].split(' ').join('-')}">
+		<h1 class="text-title-large capitalize">
 			{content['nome do condomínio']}
 		</h1>
 		<address class="inline-flex items-center gap-2 text-title-small">
@@ -79,7 +82,7 @@
 			</address>
 		</a>
 
-		<a class="btn interactive-bg-primary" href={`/condominio/${content.id}`}>
+		<a class="btn interactive-bg-primary" href={`/condominios/${content.id}`}>
 			<Icon d={icons.plus} /> info
 		</a>
 	</div>

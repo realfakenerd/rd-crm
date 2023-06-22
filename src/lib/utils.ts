@@ -43,6 +43,8 @@ function getNavigationStore() {
 		}
 	};
 
+	
+	
 	// This used to subscribe inside the callback, but that resolved the promise too early
 	const unsub = navigating.subscribe((n) => {
 		if (n === null) {
@@ -63,13 +65,14 @@ function getNavigationStore() {
 export const preparePageTransition = () => {
 	const navigation = getNavigationStore();
 
+	
 	// before navigating, start a new transition
 	beforeNavigate(() => {
 		if (!document.startViewTransition) {
 			return;
 		}
 		const navigationComplete = navigation.complete();
-
+		
 		document.startViewTransition(async () => {
 			await navigationComplete;
 		});

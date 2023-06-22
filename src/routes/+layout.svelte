@@ -19,7 +19,12 @@
 		},
 		{
 			name: 'condominios',
-			href: '/condominio',
+			href: '/condominios',
+			d: { o: icons.condominio, f: icons.condominio }
+		},
+		{
+			name: 'propostas',
+			href: '/propostas',
 			d: { o: icons.condominio, f: icons.condominio }
 		}
 	];
@@ -36,18 +41,26 @@
 							class="group flex flex-col items-center gap-y-1"
 							{href}
 							aria-label={`Ir para a página ${name}`}
-							aria-current={data.currentPathname === href ? 'page' : null}
+							aria-current={data.currentPathname === href ||
+							data.currentPathname.startsWith(`${href}/`)
+								? 'page'
+								: null}
 							role="tab"
 							tabindex="0"
 						>
 							<div
 								class="button group-hover:bg-secondary-container-hover"
-								style="background-color:{data.currentPathname === href
+								style="background-color:{data.currentPathname === href ||
+								data.currentPathname.startsWith(`${href}/`)
 									? 'rgb(var(--color-secondary-container))'
 									: ''} "
 							>
 								<span class="fill-on-background group-hover:fill-on-secondary-container">
-									<Icon d={data.currentPathname === href ? d.f : d.o} />
+									<Icon
+										d={data.currentPathname === href || data.currentPathname.startsWith(`${href}/`)
+											? d.f
+											: d.o}
+									/>
 								</span>
 							</div>
 							<span>
@@ -66,18 +79,25 @@
 					{href}
 					class="group"
 					aria-label={`Ir para a página ${href}`}
-					aria-current={data.currentPathname === href ? 'page' : null}
+					aria-current={data.currentPathname === href || data.currentPathname.startsWith(`${href}/`)
+						? 'page'
+						: null}
 					role="tab"
 					tabindex="0"
 				>
 					<div
 						class="group-hover:bg-secondary-container-hover"
-						style="background-color:{data.currentPathname === href
+						style="background-color:{data.currentPathname === href ||
+						data.currentPathname.startsWith(`${href}/`)
 							? 'rgb(var(--color-secondary-container))'
 							: ''} "
 					>
 						<span class="fill-on-background group-hover:fill-on-secondary-container">
-							<Icon d={data.currentPathname === href ? d.f : d.o} />
+							<Icon
+								d={data.currentPathname === href || data.currentPathname.startsWith(`${href}/`)
+									? d.f
+									: d.o}
+							/>
 						</span>
 					</div>
 					<span>{name}</span>
@@ -92,6 +112,10 @@
 </main>
 
 <style lang="scss">
+	header {
+		view-transition-name: header-trasition;
+	}
+
 	main.flex {
 		min-height: 100dvh;
 		min-width: 50dvw;

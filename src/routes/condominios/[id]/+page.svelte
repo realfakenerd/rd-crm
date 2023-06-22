@@ -16,12 +16,9 @@
 	<title>Condominio - {cond['nome do condomínio']}</title>
 </svelte:head>
 
-<div class="card card-filled">
+<div style:--tag="h-{cond['nome do condomínio'].split(' ').join('-')}" class="card card-filled">
 	<h1 class="text-display-medium capitalize">
-		Condominio
-		<span style:--tag="h-{cond['nome do condomínio'].split(' ').join('-')}">
-			{cond['nome do condomínio']}
-		</span>
+		Condominio {cond['nome do condomínio']}
 	</h1>
 </div>
 
