@@ -17,7 +17,12 @@
 </svelte:head>
 
 <div class="card card-filled">
-	<h1 class="text-display-medium capitalize">Condominio {cond['nome do condomínio']}</h1>
+	<h1 class="text-display-medium capitalize">
+		Condominio
+		<span style:--tag="h-{cond['nome do condomínio'].split(' ').join('-')}">
+			{cond['nome do condomínio']}
+		</span>
+	</h1>
 </div>
 
 <section class="flex w-full flex-col gap-2 md:flex-row">

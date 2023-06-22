@@ -20,11 +20,11 @@ export interface Content {
 	id: ReturnType<Crypto['randomUUID']>;
 }
 
-export enum Bairro {
+export const enum Bairro {
 	Leblon = 'LEBLON'
 }
 
-export enum Endereço {
+export const enum Endereço {
 	BartolomeuMitre = 'BARTOLOMEU MITRE',
 	GenArtigas = 'GEN. ARTIGAS',
 	GenSANMartin = 'GEN. SAN MARTIN',
@@ -51,35 +51,4 @@ export interface Metadata {
 export interface Condominio {
 	$metadata: Metadata;
 	Item: Content;
-}
-
-export interface GeoCodeData {
-    place_id:     number;
-    licence:      string;
-    osm_type:     string;
-    osm_id:       number;
-    boundingbox:  string[];
-    lat:          string;
-    lon:          string;
-    display_name: string;
-    class:        string;
-    type:         string;
-    importance:   number;
-    address:      Address;
-}
-
-export interface Address {
-    road:             string;
-    suburb:           string;
-    city_district:    string;
-    city:             string;
-    municipality:     string;
-    county:           string;
-    state_district:   string;
-    state:            string;
-    "ISO3166-2-lvl4": string;
-    region:           string;
-    postcode:         string;
-    country:          string;
-    country_code:     string;
 }

@@ -1,11 +1,9 @@
 <script lang="ts">
 	import icons from '$lib/assets/icons';
-	import Dialog from '$lib/components/Dialog.svelte';
-	import Form from '$lib/components/Form.svelte';
 	import Icon from '$lib/components/Icon.svelte';
+	import { preparePageTransition } from '$lib/utils';
 	import '@fontsource/roboto/400.css';
 	import '@fontsource/roboto/500.css';
-	import { fly } from 'svelte/transition';
 	import '../app.css';
 
 	export let data;
@@ -25,6 +23,7 @@
 			d: { o: icons.condominio, f: icons.condominio }
 		}
 	];
+	preparePageTransition();
 </script>
 
 <header style="z-index: 1500;" class="fixed bottom-0 w-full capitalize sm:static md:w-[86px]">
@@ -88,15 +87,9 @@
 	</div>
 </header>
 
-{#key data.currentPathname}
-	<main
-		in:fly={{ y: -5, duration: 250, delay: 250 }}
-		out:fly={{ y: 5, duration: 250 }}
-		class="flex flex-1 flex-col gap-2 overflow-auto p-3"
-	>
-		<slot />
-	</main>
-{/key}
+<main class="flex min-w-full flex-1 flex-col gap-2 overflow-auto p-3">
+	<slot />
+</main>
 
 <style lang="scss">
 	main.flex {

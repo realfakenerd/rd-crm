@@ -50,7 +50,7 @@
 	<Form />
 </Dialog>
 
-<section class="flex w-full flex-col items-center gap-2">
+<section class="flex w-full flex-col items-center gap-2" data-page="condominios">
 	<section class="flex w-full flex-col justify-between md:flex-row gap-2">
 		<div class="flex flex-row gap-2">
 			<button
