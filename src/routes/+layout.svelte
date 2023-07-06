@@ -107,7 +107,7 @@
 	</div>
 </header>
 
-<main class="flex min-w-full flex-1 flex-col gap-2 overflow-auto p-3">
+<main class="flex min-w-full flex-1 flex-col gap-4 overflow-auto p-3">
 	<slot />
 </main>
 

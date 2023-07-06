@@ -7,7 +7,7 @@ export const load = (async ({ fetch, params }) => {
 
 	const resEndereco = await fetch(
 		'https://nominatim.openstreetmap.org/search?addressdetails=1&format=json&q=' +
-			encodeURI(`${data.Item.endereço} ${data.Item.numero} ${data.Item.bairro}`)
+			encodeURI(`${data.Item.endereço} ${data.Item.numero} ${data.Item.bairro} rio de janeiro`)
 	);
 	return {
 		condominio: data,

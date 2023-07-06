@@ -1,5 +1,7 @@
 <script lang="ts">
 	import icons from '$lib/assets/icons';
+	import { easeEmphasized, easeEmphasizedAccel, easeEmphasizedDecel } from '$lib/easing';
+	import { fly } from 'svelte/transition';
 	import type { Content } from '../types';
 	import Icon from './Icon.svelte';
 
@@ -19,9 +21,13 @@
 		data: '',
 		id: 's-s-s-s-s'
 	};
+
+	export let index = 0;
 </script>
 
 <section
+	in:fly={{ duration: 300, easing: easeEmphasizedAccel, y: index * 10, delay: index * 33}}
+	out:fly={{duration: 150, easing: easeEmphasizedDecel}}
 	id={content.id}
 	class="card interactive-bg-surface-variant w-full gap-2 fill-on-surface-variant"
 >

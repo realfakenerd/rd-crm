@@ -14,27 +14,14 @@ function parseXLSX(content: unknown, persistData = false) {
 	const workbook: WorkBook = read(content, { type: 'array' });
 	const result = {};
 
+	console.log(workbook);
+
 	workbook.SheetNames.forEach((sheetName: string) => {
 		const worksheet: WorkSheet = workbook.Sheets[sheetName];
-		const data: string[][] = utils.sheet_to_json(worksheet, { header: 1 });
+		const data: string[][] = utils.sheet_to_json(worksheet);
+		console.log(utils.sheet_to_html(worksheet));
 
-		const head = data[0].map((header: string) => header.trim().toLowerCase());
-		const content: Record<string, any>[] = [];
-
-		let i = 1;
-		for (i; i < data.length; i++) {
-			const row: string[] = data[i];
-			const rowData: Record<string, any> = {} as Record<string, any>;
-
-			let j = 0;
-			for (j; j < head.length; j++) {
-				rowData[head[j]] = String(row[j]).toLowerCase();
-			}
-
-			content.push(rowData);
-		}
-
-		result[sheetName] = { head, content };
+		result[sheetName] = { data };
 	});
 
 	if (persistData) {

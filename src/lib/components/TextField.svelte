@@ -60,6 +60,7 @@
 				class:value
 				required
 				type="text"
+				on:input
 				{id}
 				class="text-field-input"
 				on:click={(e) => {

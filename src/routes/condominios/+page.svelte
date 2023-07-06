@@ -1,41 +1,27 @@
-<script lang="ts">
+<script lang="ts" type="module">
 	import icons from '$lib/assets/icons.js';
 	import Card from '$lib/components/Card.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import Form from '$lib/components/Form.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import TextField from '$lib/components/TextField.svelte';
-	import type { Content } from '$lib/types';
-	import { onMount } from 'svelte';
-
-	const filters = [
-		'nome do condomínio',
-		'endereço',
-		'numero',
-		'bairro',
-		'sindico',
-		'apto',
-		'telefone',
-		'unidades',
-		'administradora',
-		'funcionarios',
-		'data',
-		'id'
-	];
-
-	let searchValue = '';
-	let chaveSelecionada = 'numero';
-	$: filterOjb = (obj: Content) => {
-		const lsearch = searchValue.toLowerCase();
-		const key = obj[chaveSelecionada as keyof Content]?.toLowerCase();
-		return key?.includes(lsearch);
-	};
-
-	$: filteredItems = $prospeccao.Items.filter(filterOjb);
-	$: count = filteredItems.length;
-
+	import Fuse from 'fuse.js';
 	export let data;
 	const { prospeccao } = data;
+
+	const fuse = new Fuse($prospeccao.Items, {
+		includeScore: true,
+		includeMatches: true,
+		keys: ['nome do condomínio', 'endereço', 'numero', 'administradora', 'bairro']
+	});
+
+	let searchValue = '';
+
+	$: result = fuse.search(searchValue);
+	$: count = result.length;
+
+	$: console.log(result);
+
 	let showDialog = false;
 </script>
 
@@ -60,44 +46,24 @@
 		</div>
 		<div class="w-full md:w-1/2">
 			<TextField
-				supportingText={searchValue ? `${count} de resultados` : ''}
 				bind:value={searchValue}
 				title="Pesquise"
 				icon={icons.search}
 			/>
 		</div>
 	</section>
-	<ul class="inline-flex min-w-[50%] flex-wrap gap-1">
-		{#each filters as filter, i (i)}
-			{@const id = crypto.randomUUID()}
-			{@const name = crypto.randomUUID()}
-			{@const selected = chaveSelecionada === filter ? true : false}
-			<label class="chips items-center {selected ? 'chips-selected' : ''}" for={id}>
-				<div class="chips-layer" />
-				<div class="chips-content">
-					<input
-						on:change={() => {
-							searchValue = '';
-							chaveSelecionada = filter;
-						}}
-						class="absolute opacity-0"
-						type="radio"
-						{name}
-						bind:group={chaveSelecionada}
-						value={filter}
-						{id}
-					/>
-					{filter}
-				</div>
-			</label>
-		{/each}
-	</ul>
 </section>
 
 <ul class="grid place-items-center justify-center gap-2">
-	{#each filteredItems as content (content.id)}
-		<Card {content} />
-	{/each}
+	{#if searchValue}
+		{#each result as { item, refIndex }, index (refIndex)}
+			<Card content={item} index={index} />
+		{/each}
+	{:else}
+		{#each $prospeccao.Items as items, index (items.id)}
+			<Card content={items} {index} />
+		{/each}
+	{/if}
 </ul>
 
 <style lang="postcss">
