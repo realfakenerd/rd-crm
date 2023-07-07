@@ -47,8 +47,12 @@
 		use:outroClass
 	>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div class="container" on:click|stopPropagation aria-describedby="modal-description">
-			<div id="modal-description" class="sr-only">{title}. {confirmLabel}. {cancelLabel}</div>
+		<section
+			role="dialog"
+			class="container"
+			on:click|stopPropagation
+			aria-describedby="modal-description"
+		>
 			<!-- svelte-ignore a11y-no-redundant-roles -->
 			<h2 class="text-headline-small" role="heading" aria-level={2}>{title}</h2>
 			<div class="w-full text-body-medium text-on-error-container/70"><slot /></div>
@@ -80,7 +84,7 @@
 					</button>
 				</div>
 			{/if}
-		</div>
+		</section>
 	</dialog>
 {/key}
 

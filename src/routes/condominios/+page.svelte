@@ -5,22 +5,10 @@
 	import Form from '$lib/components/Form.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import TextField from '$lib/components/TextField.svelte';
-	import Fuse from 'fuse.js';
 	export let data;
 	const { prospeccao } = data;
 
-	const fuse = new Fuse($prospeccao.Items, {
-		includeScore: true,
-		includeMatches: true,
-		keys: ['nome do condomínio', 'endereço', 'numero', 'administradora', 'bairro']
-	});
-
 	let searchValue = '';
-
-	$: result = fuse.search(searchValue);
-	$: count = result.length;
-
-	$: console.log(result);
 
 	let showDialog = false;
 </script>
@@ -45,25 +33,15 @@
 			<h1 class="text-display-medium">Condominios</h1>
 		</div>
 		<div class="w-full md:w-1/2">
-			<TextField
-				bind:value={searchValue}
-				title="Pesquise"
-				icon={icons.search}
-			/>
+			<TextField bind:value={searchValue} title="Pesquise" icon={icons.search} />
 		</div>
 	</section>
 </section>
 
 <ul class="grid place-items-center justify-center gap-2">
-	{#if searchValue}
-		{#each result as { item, refIndex }, index (refIndex)}
-			<Card content={item} index={index} />
-		{/each}
-	{:else}
-		{#each $prospeccao.Items as items, index (items.id)}
-			<Card content={items} {index} />
-		{/each}
-	{/if}
+	{#each $prospeccao.Items as items, index (items.id)}
+		<Card content={items} {index} />
+	{/each}
 </ul>
 
 <style lang="postcss">
